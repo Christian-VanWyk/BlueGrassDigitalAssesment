@@ -71,7 +71,7 @@ export default defineComponent({
                         tooltip: {
                             enabled: false,
                         },
-                        centerLabel: true
+                        centerLabel: false
                     },
                     borderWidth: 0,
                     cutout: "80%",

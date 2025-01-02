@@ -4,22 +4,24 @@
             <h2>Edit Data Table</h2>
             <form>
                 <label for="name">Name</label>
-                <input v-model="content.name" id="name" type="text">
+                <input v-model="content.name" @keyup="nameValidation" id="name" type="text">
 
                 <label for="telNo">Tel No</label>
-                <input v-model="content.telNo" id="telNo" type="tel">
+                <input placeholder="+27 country code is needed" v-model="content.telNo" @keyup="numberValidation" id="telNo" type="tel">
 
                 <label for="email">Email</label>
-                <input v-model="content.email" id="email" type="email">
-
+                <input 
+                    v-model="content.email" 
+                    id="email" 
+                    type="email" 
+                    :class="!emailValidation() ? 'error' : ''"
+                >
                 <label for="date">Date created</label>
                 <input v-model="content.date" id="date" type="text">
 
                 <div class="status">
                     <label>
-                        <!-- {{ item.status ? 'Enabled' : 'Disabled' }} -->
                         Enabled
-                        <!-- <input v-model="item.status" type="checkbox" :checked="item.status"> -->
                         <input v-model="content.status" type="checkbox">
                         <span class="switch"></span>
                     </label>
@@ -69,6 +71,7 @@
             border: unset;
             border-bottom: 1px solid rgba(0, 0, 0, .16);
             margin-bottom: 24px;
+            position: relative;
 
             &:hover {
                 border-color: none;
@@ -77,6 +80,10 @@
 
             &:focus {
                 outline: none;
+            }
+
+            &.error {
+                border-bottom: 1px solid red;
             }
         }
 
@@ -144,14 +151,52 @@ export default {
             emit('closeModel', false);
         };
 
+        // Super basic validation.
         const save = () => {
-            emit('closeModel', false);
+            let data = content.value;
+            let valid = false;
+
+            for (const key in data) {
+                if (data.hasOwnProperty(key)) {
+                    if (data[key] === undefined || data[key] === null || data[key] === '') {
+                        valid = false;
+                        return
+                    } else {
+                        valid = true;
+                    }
+                }
+            }
+
+            if (valid) {
+                emit('closeModel', false);
+            }
         };
+
+        const numberValidation = () => {
+            content.value.telNo = content.value.telNo.replace(/[^0-9+]/g, "");
+
+            if (content.value.telNo.startsWith("+27")) {
+                let cleanedNumber = content.value.telNo.slice(1);
+                content.value.telNo = `+${cleanedNumber.slice(0, 2)} ${cleanedNumber.slice(2, 5)} ${cleanedNumber.slice(5, 8)} ${cleanedNumber.slice(8)}`;
+            }
+        };
+
+        const nameValidation = () => {
+            content.value.name = content.value.name.replace(/[^a-zA-Z]/g, "");
+        }
+
+        const emailValidation = () => {
+            const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            return regex.test(content.value.email);
+        }
 
         return {
             content,
             cancel,
-            save
+            save,
+            numberValidation,
+            nameValidation,
+            emailValidation
         };
     }
 }

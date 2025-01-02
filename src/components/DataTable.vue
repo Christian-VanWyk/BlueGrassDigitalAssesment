@@ -58,8 +58,8 @@
                     </tr>
                 </tfoot>
             </table>
-            <template v-for="(item, index) in content">
-                <table v-if="isBelowThreshold" class="mobileTable">
+            <template v-if="isBelowThreshold" v-for="(item, index) in content">
+                <table class="mobileTable">
                     <tbody>
                         <tr>
                             <th>Practise Name :</th>
@@ -97,7 +97,7 @@
                                         <path d="M18.5 25.1667C18.721 25.1667 18.933 25.0789 19.0893 24.9226C19.2456 24.7663 19.3334 24.5544 19.3334 24.3334V21C19.3334 20.779 19.2456 20.567 19.0893 20.4108C18.933 20.2545 18.721 20.1667 18.5 20.1667C18.279 20.1667 18.067 20.2545 17.9108 20.4108C17.7545 20.567 17.6667 20.779 17.6667 21V24.3334C17.6667 24.5544 17.7545 24.7663 17.9108 24.9226C18.067 25.0789 18.279 25.1667 18.5 25.1667Z" fill="#FFFFFF"/>
                                     </svg>
                                 </button>
-                                <button aria-label="Edit" class="primary">
+                                <button @click="openEditModel(index)" aria-label="Edit" class="primary">
                                     <svg width="32" height="42" viewBox="0 0 32 42" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M8.91669 28.5H23.9167" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                         <path d="M10.5833 22.1333V25.1667H13.6321L22.25 16.545L19.2063 13.5L10.5833 22.1333Z" fill="transparent" stroke="#FFFFFF" stroke-width="2" stroke-linejoin="round"/>
@@ -379,7 +379,7 @@ export default {
             {
                 id: 1,
                 name: 'Cape Fertility Clinic',
-                telNo: '+21 794 3956',
+                telNo: '+27 795 065 277',
                 email: 'info@capefertility.co.za',
                 date: '04/10/2021',
                 status: true,
@@ -387,7 +387,7 @@ export default {
             {
                 id: 2,
                 name: 'Cape Fertility Clinic',
-                telNo: '+21 794 3956',
+                telNo: '+27 795 065 277',
                 email: 'info@capefertility.co.za',
                 date: '04/10/2021',
                 status: true,
@@ -395,7 +395,7 @@ export default {
             {
                 id: 3,
                 name: 'Cape Fertility Clinic',
-                telNo: '+21 794 3956',
+                telNo: '+27 795 065 277',
                 email: 'info@capefertility.co.za',
                 date: '04/10/2021',
                 status: false,
@@ -411,7 +411,7 @@ export default {
         }
 
         const deleteTable = (i) => {
-            content.value = content.value.filter(obj => obj.id !== i);
+            content.value = content.value.filter(obj => obj?.id !== i);
         }
 
         let modelClose = (data) => {

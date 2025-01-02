@@ -10,8 +10,18 @@ const router = createRouter({
       component: HomeView,
     },
     {
-      path: '/dummy',
-      name: 'dummy',
+      path: '/profile',
+      name: 'profile',
+      component: () => import('../views/Dummy.vue'),
+    },
+    {
+      path: '/practices',
+      name: 'practices',
+      component: () => import('../views/Dummy.vue'),
+    },
+    {
+      path: '/logs',
+      name: 'logs',
       component: () => import('../views/Dummy.vue'),
     },
   ],
